@@ -64,7 +64,7 @@ module Pjax
       request.instance_variable_set('@fullpath', nil)
     end
 
-    def strip_pjax_param
+    def strip_ajax_param
       params.delete(:_)
       request.env['QUERY_STRING'] = request.env['QUERY_STRING'].sub(/_=[^&]+&?/, '')
     end
