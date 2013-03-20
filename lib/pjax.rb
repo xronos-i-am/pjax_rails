@@ -8,6 +8,7 @@ module Pjax
     rescue_from Pjax::Unsupported, :with => :pjax_unsupported
 
     before_filter :strip_pjax_param, :if => :pjax_request?
+    before_filter :strip_ajax_param, :if => :pjax_request?
     before_filter :set_pjax_url,     :if => :pjax_request?
   end
 
@@ -61,6 +62,11 @@ module Pjax
 
       request.instance_variable_set('@original_fullpath', nil)
       request.instance_variable_set('@fullpath', nil)
+    end
+
+    def strip_pjax_param
+      params.delete(:_)
+      request.env['QUERY_STRING'] = request.env['QUERY_STRING'].sub(/_=[^&]+&?/, '')
     end
 
     def set_pjax_url
